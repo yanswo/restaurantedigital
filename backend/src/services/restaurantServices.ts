@@ -28,4 +28,21 @@ export class RestaurantService {
       orderBy: { createdAt: "desc" },
     });
   }
+
+  static async update(restaurantId: string, name: string) {
+    const slug = name.toLowerCase().replace(/\s+/g, "-");
+
+    const updatedRestaurant = await prisma.restaurant.update({
+      where: { id: restaurantId },
+      data: { name, slug },
+    });
+
+    return updatedRestaurant;
+  }
+
+  static async delete(restaurantId: string) {
+    await prisma.restaurant.delete({
+      where: { id: restaurantId },
+    });
+  }
 }

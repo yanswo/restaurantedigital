@@ -21,4 +21,22 @@ export class ProductService {
 
     return products;
   }
+
+  static async update(
+    productId: string,
+    data: {
+      name: string;
+      description: string;
+      price: number;
+      categoryId: string;
+      imageUrl?: string;
+    }
+  ) {
+    const product = await prisma.product.update({
+      where: { id: productId },
+      data,
+    });
+
+    return product;
+  }
 }

@@ -29,4 +29,22 @@ export class ProductController {
       res.status(400).json({ error: err.message });
     }
   }
+
+  static async update(req: Request, res: Response) {
+    const { productId } = req.params;
+    const { name, description, price, categoryId, imageUrl } = req.body;
+
+    try {
+      const updatedProduct = await ProductService.update(productId, {
+        name,
+        description,
+        price,
+        categoryId,
+        imageUrl,
+      });
+      res.status(200).json(updatedProduct);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
 }

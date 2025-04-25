@@ -9,4 +9,6 @@ router.post("/", authenticateToken, isAdmin, ProductController.create);
 
 router.get("/:categoryId", ProductController.list);
 
+router.put("/:productId", authenticateToken, isAdmin, ProductController.update);
+
 export default router;

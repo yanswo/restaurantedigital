@@ -23,4 +23,27 @@ export class CategoryController {
       res.status(400).json({ error: err.message });
     }
   }
+
+  static async update(req: Request, res: Response) {
+    const { categoryId } = req.params;
+    const { name } = req.body;
+
+    try {
+      const updatedCategory = await CategoryService.update(categoryId, name);
+      res.status(200).json(updatedCategory);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    const { categoryId } = req.params;
+
+    try {
+      await CategoryService.delete(categoryId);
+      res.status(204).send();
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
 }

@@ -22,4 +22,30 @@ export class RestaurantController {
       res.status(500).json({ error: err.message });
     }
   }
+
+  static async update(req: Request, res: Response) {
+    const { restaurantId } = req.params;
+    const { name } = req.body;
+
+    try {
+      const updatedRestaurant = await RestaurantService.update(
+        restaurantId,
+        name
+      );
+      res.status(200).json(updatedRestaurant);
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
+  static async delete(req: Request, res: Response) {
+    const { restaurantId } = req.params;
+
+    try {
+      await RestaurantService.delete(restaurantId);
+      res.status(204).send();
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
 }

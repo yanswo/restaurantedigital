@@ -1,4 +1,3 @@
-// src/services/orderService.ts
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -11,7 +10,6 @@ export class OrderService {
   ) {
     let total = 0;
 
-    // Calculando o total do pedido
     const orderItems = await Promise.all(
       items.map(async (item) => {
         const product = await prisma.product.findUnique({
@@ -30,7 +28,6 @@ export class OrderService {
       })
     );
 
-    // Criando o pedido
     const order = await prisma.order.create({
       data: {
         userId,
