@@ -1,46 +1,19 @@
-// src/pages/Dashboard.tsx
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "../stores/authStore";
-import api from "../services/api";
+import { Link } from "react-router-dom";
 
-const Dashboard: React.FC = () => {
-  const [orders, setOrders] = useState<any[]>([]);
-  const { user } = useAuthStore();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await api.get(`/orders/${user?.id}`);
-        setOrders(response.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-
-    if (user?.role === "ADMIN") {
-      fetchOrders();
-    } else {
-      navigate("/login");
-    }
-  }, [user, history]);
-
+export default function Dashboard() {
   return (
-    <div className="dashboard-container">
-      <h1>Dashboard - Bem-vindo, {user?.name}</h1>
-      <h2>Pedidos Recentes</h2>
-      <ul>
-        {orders.map((order) => (
-          <li key={order.id}>
-            <p>
-              Pedido {order.id} - Status: {order.status}
-            </p>
+    <div style={{ padding: "2rem" }}>
+      <h1>Painel Administrativo</h1>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/restaurants">Gerenciar Restaurantes</Link>
           </li>
-        ))}
-      </ul>
+          <li>
+            <Link to="/categories">Gerenciar Categorias</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
-};
-
-export default Dashboard;
+}

@@ -1,0 +1,47 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f2f2f2;
+}
+
+.login-container {
+  max-width: 300px;
+  margin: 100px auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  padding: 0.5rem;
+  width: 100%;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form select,
+form input {
+  display: block;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  width: 300px;
+}
+
+form button {
+  padding: 0.5rem 1rem;
+  background-color: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

@@ -1,22 +1,35 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./components/PrivateRoute";
+import Restaurants from "./pages/Restaurants";
+import Categories from "./pages/Categories";
+import Products from "./pages/Products";
 
-const App: React.FC = () => {
+function App() {
+  const token = localStorage.getItem("token");
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        {/* Protegendo a rota com PrivateRoute */}
-        <Route
-          path="/dashboard"
-          element={<PrivateRoute element={<Dashboard />} />}
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/dashboard"
+        element={token ? <Dashboard /> : <Navigate to="/login" />}
+      />
+      <Route path="*" element={<Navigate to="/login" />} />
+      <Route
+        path="/restaurants"
+        element={token ? <Restaurants /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/categories"
+        element={token ? <Categories /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/products"
+        element={token ? <Products /> : <Navigate to="/login" />}
+      />
+    </Routes>
   );
-};
+}
 
 export default App;

@@ -13,4 +13,13 @@ export class RestaurantController {
       res.status(400).json({ error: err.message });
     }
   }
+
+  static async getAll(req: Request, res: Response) {
+    try {
+      const restaurants = await RestaurantService.getAll();
+      res.json(restaurants);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  }
 }

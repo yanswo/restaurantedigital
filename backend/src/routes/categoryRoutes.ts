@@ -5,10 +5,8 @@ import { isAdmin } from "../middlewares/isAdminMiddleware";
 
 const router = Router();
 
-// Admin cria categorias para um restaurante
 router.post("/", authenticateToken, isAdmin, CategoryController.create);
 
-// Qualquer usuário pode listar categorias de um restaurante
-router.get("/:restaurantId", CategoryController.list);
+router.get("/restaurant/:restaurantId", CategoryController.list);
 
 export default router;

@@ -19,4 +19,13 @@ export class RestaurantService {
 
     return restaurant;
   }
+
+  static async getAll() {
+    return prisma.restaurant.findMany({
+      include: {
+        user: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  }
 }
