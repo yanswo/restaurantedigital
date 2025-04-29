@@ -30,7 +30,8 @@ export class OrderController {
   }
 
   static async updateStatus(req: Request, res: Response) {
-    const { orderId, status } = req.body;
+    const { status } = req.body;
+    const { orderId } = req.params;
 
     try {
       const order = await OrderService.updateStatus(orderId, status);

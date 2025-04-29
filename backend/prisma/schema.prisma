@@ -48,6 +48,7 @@ model Product {
   description String?
   price       Float
   imageUrl    String?
+  order       Int        @default(0)
   orderItems  OrderItem[]
   category    Category   @relation(fields: [categoryId], references: [id])
   categoryId  String

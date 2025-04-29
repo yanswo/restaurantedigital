@@ -47,4 +47,15 @@ export class ProductController {
       res.status(400).json({ error: err.message });
     }
   }
+
+  static async delete(req: Request, res: Response) {
+    const { productId } = req.params;
+
+    try {
+      await ProductService.delete(productId);
+      res.status(204).send(); // Retorna sucesso sem conteúdo
+    } catch (err: any) {
+      res.status(400).json({ error: err.message });
+    }
+  }
 }

@@ -52,11 +52,18 @@ export class OrderService {
   }
 
   static async updateStatus(orderId: string, status: string) {
-    const order = await prisma.order.update({
+    const validStatuses = ["PENDENTE", "EM ANDAMENTO", "CONCLUIDO"];
+    if (!validStatuses.includes(status)) {
+      throw new Error(
+        "Status inválido. Use: PENDENTE, EM ANDAMENTO ou CONCLUIDO."
+      );
+    }
+
+    const updatedOrder = await prisma.order.update({
       where: { id: orderId },
       data: { status },
     });
 
-    return order;
+    return updatedOrder;
   }
 }

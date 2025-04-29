@@ -32,17 +32,37 @@ export class RestaurantService {
   static async update(restaurantId: string, name: string) {
     const slug = name.toLowerCase().replace(/\s+/g, "-");
 
-    const updatedRestaurant = await prisma.restaurant.update({
-      where: { id: restaurantId },
-      data: { name, slug },
-    });
+    try {
+      const updatedRestaurant = await prisma.restaurant.update({
+        where: { id: restaurantId },
+        data: { name, slug },
+      });
 
-    return updatedRestaurant;
+      return updatedRestaurant;
+    } catch (error) {
+      throw new Error(
+        "Não é possível editar o restaurante porque ele possui dependências associadas."
+      );
+    }
   }
 
   static async delete(restaurantId: string) {
-    await prisma.restaurant.delete({
-      where: { id: restaurantId },
-    });
+    try {
+      await prisma.category.deleteMany({
+        where: { restaurantId },
+      });
+
+      await prisma.order.deleteMany({
+        where: { restaurantId },
+      });
+
+      await prisma.restaurant.delete({
+        where: { id: restaurantId },
+      });
+    } catch (error) {
+      throw new Error(
+        "Não é possível excluir o restaurante porque ele possui dependências associadas."
+      );
+    }
   }
 }

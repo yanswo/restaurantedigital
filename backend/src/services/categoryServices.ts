@@ -37,17 +37,33 @@ export class CategoryService {
   }
 
   static async update(categoryId: string, name: string) {
-    const updatedCategory = await prisma.category.update({
-      where: { id: categoryId },
-      data: { name },
-    });
+    try {
+      const updatedCategory = await prisma.category.update({
+        where: { id: categoryId },
+        data: { name },
+      });
 
-    return updatedCategory;
+      return updatedCategory;
+    } catch (error) {
+      throw new Error(
+        "Não é possível editar a categoria porque ela possui dependências associadas."
+      );
+    }
   }
 
   static async delete(categoryId: string) {
-    await prisma.category.delete({
-      where: { id: categoryId },
-    });
+    try {
+      await prisma.product.deleteMany({
+        where: { categoryId },
+      });
+
+      await prisma.category.delete({
+        where: { id: categoryId },
+      });
+    } catch (error) {
+      throw new Error(
+        "Não é possível excluir a categoria porque ela possui dependências associadas."
+      );
+    }
   }
 }

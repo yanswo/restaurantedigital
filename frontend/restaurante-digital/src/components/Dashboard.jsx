@@ -83,10 +83,12 @@ function Dashboard() {
       );
       setError(null);
     } catch (error) {
-      setError("Erro ao excluir restaurante: " + error.response.data.error);
+      setError(
+        "Erro ao excluir restaurante: " +
+          (error.response?.data?.error || error.message)
+      );
     }
   };
-
   const handleManageCategories = (restaurantId) => {
     navigate(`/restaurants/${restaurantId}/categories`);
   };

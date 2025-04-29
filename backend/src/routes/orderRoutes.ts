@@ -9,6 +9,11 @@ router.post("/", authenticateToken, OrderController.create);
 
 router.get("/:restaurantId", authenticateToken, isAdmin, OrderController.list);
 
-router.put("/status", authenticateToken, isAdmin, OrderController.updateStatus);
+router.put(
+  "/:orderId/status",
+  authenticateToken,
+  isAdmin,
+  OrderController.updateStatus
+);
 
 export default router;

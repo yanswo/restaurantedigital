@@ -11,4 +11,11 @@ router.get("/:categoryId", ProductController.list);
 
 router.put("/:productId", authenticateToken, isAdmin, ProductController.update);
 
+router.delete(
+  "/:productId",
+  authenticateToken,
+  isAdmin,
+  ProductController.delete
+);
+
 export default router;

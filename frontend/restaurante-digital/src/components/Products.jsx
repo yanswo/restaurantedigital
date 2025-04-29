@@ -16,7 +16,7 @@ function Products() {
   });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [orders, setOrders] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -101,6 +101,26 @@ function Products() {
     }
   };
 
+  const handleUpdateStatus = async (orderId, newStatus) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:3333/orders/${orderId}/status`,
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setOrders(
+        orders.map((order) =>
+          order.id === orderId
+            ? { ...order, status: response.data.status }
+            : order
+        )
+      );
+    } catch (error) {
+      alert("Erro ao atualizar status do pedido: " + error.response.data.error);
+    }
+  };
+
   const handleDeleteProduct = async (productId) => {
     try {
       const token = localStorage.getItem("token");
@@ -171,6 +191,21 @@ function Products() {
               </li>
             ))}
           </ul>
+
+          {orders.map((order) => (
+            <li key={order.id}>
+              <p>Pedido #{order.id}</p>
+              <p>Status: {order.status}</p>
+              <button
+                onClick={() => handleUpdateStatus(order.id, "EM ANDAMENTO")}
+              >
+                Marcar como Em Andamento
+              </button>
+              <button onClick={() => handleUpdateStatus(order.id, "CONCLUIDO")}>
+                Marcar como Concluído
+              </button>
+            </li>
+          ))}
 
           {editingProduct ? (
             <div className={styles.formContainer}>

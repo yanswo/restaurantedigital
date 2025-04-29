@@ -32,11 +32,33 @@ export class ProductService {
       imageUrl?: string;
     }
   ) {
-    const product = await prisma.product.update({
-      where: { id: productId },
-      data,
-    });
+    try {
+      const updatedProduct = await prisma.product.update({
+        where: { id: productId },
+        data,
+      });
 
-    return product;
+      return updatedProduct;
+    } catch (error) {
+      throw new Error(
+        "Não é possível editar o produto porque ele possui dependências associadas."
+      );
+    }
+  }
+
+  static async delete(productId: string) {
+    try {
+      await prisma.orderItem.deleteMany({
+        where: { productId },
+      });
+
+      await prisma.product.delete({
+        where: { id: productId },
+      });
+    } catch (error) {
+      throw new Error(
+        "Não é possível excluir o produto porque ele possui dependências associadas."
+      );
+    }
   }
 }
